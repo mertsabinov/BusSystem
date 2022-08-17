@@ -14,12 +14,12 @@ func (d Data) Search(id string) (bus.Bus, error) {
 	return result, nil
 }
 
-func (d Data) Save(vehicle bus.Bus, id string) error {
-	_, err := d.Search(id)
+func (d Data) Save(vehicle bus.Bus) error {
+	_, err := d.Search(vehicle.Id)
 
 	switch err {
 	case DbKeyNotFound:
-		d[id] = vehicle
+		d[vehicle.Id] = vehicle
 		break
 	case nil:
 		return DbAlReadyExisti
@@ -29,6 +29,15 @@ func (d Data) Save(vehicle bus.Bus, id string) error {
 }
 
 func (d Data) Update(vehicle bus.Bus, id string) error {
+	_, err := d.Search(vehicle.Id)
+	switch err {
+	case DbKeyNotFound:
+		return DbKeyNotFound
+	case nil:
+		d[vehicle.Id] = vehicle
+		break
+
+	}
 	return nil
 }
 
