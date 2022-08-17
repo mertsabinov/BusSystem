@@ -28,7 +28,7 @@ func (d Data) Save(vehicle bus.Bus) error {
 	return nil
 }
 
-func (d Data) Update(vehicle bus.Bus, id string) error {
+func (d Data) Update(vehicle bus.Bus) error {
 	_, err := d.Search(vehicle.Id)
 	switch err {
 	case DbKeyNotFound:

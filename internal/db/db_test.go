@@ -93,7 +93,7 @@ func TestData_Update(t *testing.T) {
 		Destination:    "test test",
 	}
 
-	err := d.Update(newBus, newBus.Id)
+	err := d.Update(newBus)
 	chackError(t, err)
 
 	result, err := d.Search(newBus.Id)
