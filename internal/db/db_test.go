@@ -56,7 +56,7 @@ func TestData_Save(t *testing.T) {
 	}
 
 	t.Run("Db Save", func(t *testing.T) {
-		err := d.Save(b, b.Id)
+		err := d.Save(b)
 		chackError(t, err)
 
 		result, err := d.Search(b.Id)
@@ -67,11 +67,38 @@ func TestData_Save(t *testing.T) {
 	})
 
 	t.Run("Db key AlReady Existi", func(t *testing.T) {
-		got := d.Save(b, b.Id)
+		got := d.Save(b)
 		want := DbAlReadyExisti
 		if got != want {
 			t.Errorf("got = %s want = %s", got, want)
 		}
 	})
+}
 
+func TestData_Update(t *testing.T) {
+	d := Data{
+		"1": {
+			Id:             "1",
+			Capacity:       30,
+			EmptySeat:      []int{},
+			DeparturePoint: "test",
+			Destination:    "test test",
+		},
+	}
+	newBus := bus.Bus{
+		Id:             "1",
+		Capacity:       15,
+		EmptySeat:      []int{},
+		DeparturePoint: "test",
+		Destination:    "test test",
+	}
+
+	err := d.Update(newBus, newBus.Id)
+	chackError(t, err)
+
+	result, err := d.Search(newBus.Id)
+	chackError(t, err)
+	got := result
+	want := newBus
+	chackDeepEqual(t, got, want)
 }
