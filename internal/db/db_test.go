@@ -1,7 +1,7 @@
 package db
 
 import (
-	"BusSystem/internal/bus"
+	bus "BusSystem/internal/bus"
 	"reflect"
 	"testing"
 )
@@ -101,4 +101,98 @@ func TestData_Update(t *testing.T) {
 	got := result
 	want := newBus
 	chackDeepEqual(t, got, want)
+}
+
+func TestData_Delete(t *testing.T) {
+	d := Data{
+		"1": {
+			Id:             "1",
+			Capacity:       30,
+			EmptySeat:      []int{},
+			DeparturePoint: "test",
+			Destination:    "test test",
+		},
+	}
+	err := d.Delete("1")
+	chackError(t, err)
+
+	_, got := d.Search("1")
+	want := DbKeyNotFound
+	if got != want {
+		t.Errorf("got = %s want = %s", got, want)
+	}
+}
+
+func BenchmarkData_Search(b *testing.B) {
+	d := Data{
+		"1": {
+			Id:             "1",
+			Capacity:       30,
+			EmptySeat:      []int{},
+			DeparturePoint: "test",
+			Destination:    "test test",
+		},
+	}
+	for i := 0; i < b.N; i++ {
+		d.Search("1")
+	}
+}
+
+func BenchmarkData_Save(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		d := Data{
+			"1": {
+				Id:             "1",
+				Capacity:       30,
+				EmptySeat:      []int{},
+				DeparturePoint: "test",
+				Destination:    "test test",
+			},
+		}
+		newBus := bus.Bus{
+			Id:             "2",
+			Capacity:       15,
+			EmptySeat:      []int{},
+			DeparturePoint: "test",
+			Destination:    "test test",
+		}
+		d.Save(newBus)
+	}
+}
+
+func BenchmarkData_Update(b *testing.B) {
+	d := Data{
+		"1": {
+			Id:             "1",
+			Capacity:       30,
+			EmptySeat:      []int{},
+			DeparturePoint: "test",
+			Destination:    "test test",
+		},
+	}
+	newBus := bus.Bus{
+		Id:             "1",
+		Capacity:       15,
+		EmptySeat:      []int{},
+		DeparturePoint: "test",
+		Destination:    "test test",
+	}
+	for i := 0; i < b.N; i++ {
+		d.Update(newBus)
+	}
+}
+
+func BenchmarkData_Delete(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		d := Data{
+			"1": {
+				Id:             "1",
+				Capacity:       30,
+				EmptySeat:      []int{},
+				DeparturePoint: "test",
+				Destination:    "test test",
+			},
+		}
+		d.Delete("1")
+	}
 }
