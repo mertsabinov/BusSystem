@@ -18,9 +18,12 @@ func (b Bus) CheckSeatNumber(seatNumber int) error {
 	return nil
 }
 
-func (b Bus) SeatSearch(seatNumber int) (Bus, error) {
-
-	return Bus{}, nil
+func (b Bus) SeatSearch(seatNumber int) (bool, error) {
+	result, ok := b.EmptySeat[seatNumber]
+	if !ok {
+		return true, BusSeatNumberFalse
+	}
+	return result, nil
 }
 
 func (b Bus) ReserveSeat(seatNumber int) error {
