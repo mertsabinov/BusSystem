@@ -1,15 +1,15 @@
 package bus
 
-type busErr string
+type BusErr string
 
 const (
-	BusErrSeatFull          busErr = "The entered seat number is full"
-	BusSeatNumberFalse      busErr = "This seat number is false"
-	BusCheckSeatNumberSmall busErr = "this seat number must be biger than 0"
-	BusCheckSeatNumberBig   busErr = "this seat number must be smaller than capacity"
-	BusSeatNumberFull       busErr = "This seat number is full"
+	BusErrSeatFull          BusErr = "The entered seat number is full"
+	BusSeatNumberFalse      BusErr = "This seat number is false"
+	BusCheckSeatNumberSmall BusErr = "this seat number must be biger than 0"
+	BusCheckSeatNumberBig   BusErr = "this seat number must be smaller than capacity"
+	BusSeatNumberFull       BusErr = "This seat number is full"
 )
 
-func (e busErr) Error() string {
+func (e BusErr) Error() string {
 	return string(e)
 }
