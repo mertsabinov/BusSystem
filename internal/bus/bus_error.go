@@ -7,6 +7,7 @@ const (
 	BusSeatNumberFalse      busErr = "This seat number is false"
 	BusCheckSeatNumberSmall busErr = "this seat number must be biger than 0"
 	BusCheckSeatNumberBig   busErr = "this seat number must be smaller than capacity"
+	BusSeatNumberFull       busErr = "This seat number is full"
 )
 
 func (e busErr) Error() string {
