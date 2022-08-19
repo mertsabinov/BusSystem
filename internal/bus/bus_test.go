@@ -8,7 +8,7 @@ import (
 var testBus = Bus{
 	Id:             "1",
 	Capacity:       30,
-	EmptySeat:      map[int]bool{10: false, 11: true},
+	EmptySeat:      map[int]bool{2: false, 10: false, 11: true},
 	DeparturePoint: "test",
 	Destination:    "test test",
 }
@@ -70,9 +70,35 @@ func TestBus_SeatSearch(t *testing.T) {
 
 	t.Run("Seat search error", func(t *testing.T) {
 		_, got := testBus.SeatSearch(1)
+
 		want := BusSeatNumberFalse
 		if got != want {
 			t.Errorf("got = %s want = %s", got, want)
 		}
 	})
+}
+
+func TestBus_SeatRegistration(t *testing.T) {
+	t.Run("Seat Registarion", func(t *testing.T) {
+		err := testBus.SeatRegistration(2)
+		checkError(t, err)
+
+		got, err := testBus.SeatSearch(2)
+		checkError(t, err)
+		want := true
+
+		if got != want {
+			t.Errorf("got = %t want = %t", got, want)
+		}
+	})
+
+	t.Run("Seat number full", func(t *testing.T) {
+		got := testBus.SeatRegistration(11)
+		want := BusSeatNumberFull
+
+		if got != want {
+			t.Errorf("got = %s want = %s", got, want)
+		}
+	})
+
 }
