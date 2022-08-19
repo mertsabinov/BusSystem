@@ -6,14 +6,14 @@ import (
 	"testing"
 )
 
-func chackError(t *testing.T, err error) {
+func checkError(t *testing.T, err error) {
 	t.Helper()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
 }
 
-func chackDeepEqual(t *testing.T, got bus.Bus, want bus.Bus) {
+func checkDeepEqual(t *testing.T, got bus.Bus, want bus.Bus) {
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got = %v want = %v", got, want)
 	}
@@ -24,7 +24,7 @@ func TestData_Search(t *testing.T) {
 		"1": {
 			Id:             "1",
 			Capacity:       30,
-			EmptySeat:      []int{},
+			EmptySeat:      map[int]bool{},
 			DeparturePoint: "test",
 			Destination:    "test test",
 		},
@@ -33,16 +33,16 @@ func TestData_Search(t *testing.T) {
 	b := bus.Bus{
 		Id:             "1",
 		Capacity:       30,
-		EmptySeat:      []int{},
+		EmptySeat:      map[int]bool{},
 		DeparturePoint: "test",
 		Destination:    "test test",
 	}
 
 	result, err := d.Search("1")
-	chackError(t, err)
+	checkError(t, err)
 	got := result
 	want := b
-	chackDeepEqual(t, got, want)
+	checkDeepEqual(t, got, want)
 }
 
 func TestData_Save(t *testing.T) {
@@ -50,20 +50,20 @@ func TestData_Save(t *testing.T) {
 	b := bus.Bus{
 		Id:             "1",
 		Capacity:       30,
-		EmptySeat:      []int{},
+		EmptySeat:      map[int]bool{},
 		DeparturePoint: "test",
 		Destination:    "test test",
 	}
 
 	t.Run("Db Save", func(t *testing.T) {
 		err := d.Save(b)
-		chackError(t, err)
+		checkError(t, err)
 
 		result, err := d.Search(b.Id)
-		chackError(t, err)
+		checkError(t, err)
 		got := result
 		want := b
-		chackDeepEqual(t, got, want)
+		checkDeepEqual(t, got, want)
 	})
 
 	t.Run("Db key AlReady Existi", func(t *testing.T) {
@@ -80,7 +80,7 @@ func TestData_Update(t *testing.T) {
 		"1": {
 			Id:             "1",
 			Capacity:       30,
-			EmptySeat:      []int{},
+			EmptySeat:      map[int]bool{},
 			DeparturePoint: "test",
 			Destination:    "test test",
 		},
@@ -88,19 +88,19 @@ func TestData_Update(t *testing.T) {
 	newBus := bus.Bus{
 		Id:             "1",
 		Capacity:       15,
-		EmptySeat:      []int{},
+		EmptySeat:      map[int]bool{},
 		DeparturePoint: "test",
 		Destination:    "test test",
 	}
 
 	err := d.Update(newBus)
-	chackError(t, err)
+	checkError(t, err)
 
 	result, err := d.Search(newBus.Id)
-	chackError(t, err)
+	checkError(t, err)
 	got := result
 	want := newBus
-	chackDeepEqual(t, got, want)
+	checkDeepEqual(t, got, want)
 }
 
 func TestData_Delete(t *testing.T) {
@@ -108,13 +108,13 @@ func TestData_Delete(t *testing.T) {
 		"1": {
 			Id:             "1",
 			Capacity:       30,
-			EmptySeat:      []int{},
+			EmptySeat:      map[int]bool{},
 			DeparturePoint: "test",
 			Destination:    "test test",
 		},
 	}
 	err := d.Delete("1")
-	chackError(t, err)
+	checkError(t, err)
 
 	_, got := d.Search("1")
 	want := DbKeyNotFound
@@ -128,7 +128,7 @@ func BenchmarkData_Search(b *testing.B) {
 		"1": {
 			Id:             "1",
 			Capacity:       30,
-			EmptySeat:      []int{},
+			EmptySeat:      map[int]bool{},
 			DeparturePoint: "test",
 			Destination:    "test test",
 		},
@@ -144,7 +144,7 @@ func BenchmarkData_Save(b *testing.B) {
 			"1": {
 				Id:             "1",
 				Capacity:       30,
-				EmptySeat:      []int{},
+				EmptySeat:      map[int]bool{},
 				DeparturePoint: "test",
 				Destination:    "test test",
 			},
@@ -152,7 +152,7 @@ func BenchmarkData_Save(b *testing.B) {
 		newBus := bus.Bus{
 			Id:             "2",
 			Capacity:       15,
-			EmptySeat:      []int{},
+			EmptySeat:      map[int]bool{},
 			DeparturePoint: "test",
 			Destination:    "test test",
 		}
@@ -165,7 +165,7 @@ func BenchmarkData_Update(b *testing.B) {
 		"1": {
 			Id:             "1",
 			Capacity:       30,
-			EmptySeat:      []int{},
+			EmptySeat:      map[int]bool{},
 			DeparturePoint: "test",
 			Destination:    "test test",
 		},
@@ -173,7 +173,7 @@ func BenchmarkData_Update(b *testing.B) {
 	newBus := bus.Bus{
 		Id:             "1",
 		Capacity:       15,
-		EmptySeat:      []int{},
+		EmptySeat:      map[int]bool{},
 		DeparturePoint: "test",
 		Destination:    "test test",
 	}
@@ -188,7 +188,7 @@ func BenchmarkData_Delete(b *testing.B) {
 			"1": {
 				Id:             "1",
 				Capacity:       30,
-				EmptySeat:      []int{},
+				EmptySeat:      map[int]bool{},
 				DeparturePoint: "test",
 				Destination:    "test test",
 			},
