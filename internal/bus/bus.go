@@ -19,6 +19,11 @@ func (b Bus) CheckSeatNumber(seatNumber int) error {
 }
 
 func (b Bus) SeatSearch(seatNumber int) (bool, error) {
+	err := b.CheckSeatNumber(seatNumber)
+	if err != nil {
+		return true, err
+	}
+
 	result, ok := b.EmptySeat[seatNumber]
 	if !ok {
 		return true, BusSeatNumberFalse
@@ -27,10 +32,6 @@ func (b Bus) SeatSearch(seatNumber int) (bool, error) {
 }
 
 func (b Bus) SeatRegistration(seatNumber int) error {
-	err := b.CheckSeatNumber(seatNumber)
-	if err != nil {
-		return err
-	}
 
 	result, err := b.SeatSearch(seatNumber)
 	if err != nil {
