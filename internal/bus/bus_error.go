@@ -3,7 +3,7 @@ package bus
 type BusErr string
 
 const (
-	BusErrSeatFull          BusErr = "The entered seat number is full"
+	BusErrSAlleatFull       BusErr = "All seats are full"
 	BusSeatNumberFalse      BusErr = "This seat number is false"
 	BusCheckSeatNumberSmall BusErr = "this seat number must be biger than 0"
 	BusCheckSeatNumberBig   BusErr = "this seat number must be smaller than capacity"
