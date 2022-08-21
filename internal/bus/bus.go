@@ -46,8 +46,13 @@ func (b Bus) SeatRegistration(seatNumber int) error {
 	return nil
 }
 
-func (b Bus) VehicleEmpty() bool {
-	return true
+func (b Bus) VehicleEmpty() (bool, error) {
+	for _, value := range b.EmptySeat {
+		if value == false {
+			return true, nil
+		}
+	}
+	return false, BusErrSAlleatFull
 }
 
 func (b Bus) SeatRemove(seatNumber int) error {
