@@ -102,3 +102,25 @@ func TestBus_SeatRegistration(t *testing.T) {
 	})
 
 }
+
+func TestBus_VehicleEmpty(t *testing.T) {
+	t.Run("Vehicle empty", func(t *testing.T) {
+		got, err := testBus.VehicleEmpty()
+		checkError(t, err)
+		want := true
+		if got != want {
+			t.Errorf("got = %t want = %t", got, want)
+		}
+	})
+
+	t.Run("Error : All seats are full", func(t *testing.T) {
+		err2 := testBus.SeatRegistration(10)
+		checkError(t, err2)
+
+		_, got := testBus.VehicleEmpty()
+		want := BusErrSAlleatFull
+		if got != want {
+			t.Errorf("got = %s want = %s", got, want)
+		}
+	})
+}
