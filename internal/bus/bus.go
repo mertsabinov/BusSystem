@@ -8,6 +8,13 @@ type Bus struct {
 	Destination    string
 }
 
+func (b Bus) EmptySeatInıt() error {
+	for i := 1; i <= b.Capacity; i++ {
+		b.EmptySeat[i] = false
+	}
+	return nil
+}
+
 func (b Bus) CheckSeatNumber(seatNumber int) error {
 	if seatNumber < 1 {
 		return BusCheckSeatNumberSmall
