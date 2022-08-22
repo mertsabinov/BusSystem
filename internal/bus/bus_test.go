@@ -124,3 +124,26 @@ func TestBus_VehicleEmpty(t *testing.T) {
 		}
 	})
 }
+
+func TestBus_SeatRemove(t *testing.T) {
+	t.Run("Seat number remove", func(t *testing.T) {
+		err := testBus.SeatRemove(2)
+		checkError(t, err)
+
+		got, err := testBus.SeatSearch(2)
+		checkError(t, err)
+		want := false
+		if got != want {
+			t.Errorf("got = %t want = %t", got, want)
+		}
+	})
+
+	t.Run("Error: seat number is empty", func(t *testing.T) {
+		got := testBus.SeatRemove(2)
+		want := BusErrSeatNumberEmpty
+
+		if got != want {
+			t.Errorf("got = %s want = %s", got, want)
+		}
+	})
+}
