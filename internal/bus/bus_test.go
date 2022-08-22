@@ -161,3 +161,39 @@ func TestBus_SeatRemove(t *testing.T) {
 		}
 	})
 }
+
+func BenchmarkBus_EmptySeatInıt(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		testBus.EmptySeatInıt()
+	}
+}
+
+func BenchmarkBus_CheckSeatNumber(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		testBus.CheckSeatNumber(2)
+	}
+}
+
+func BenchmarkBus_SeatSearch(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		testBus.SeatSearch(2)
+	}
+}
+
+func BenchmarkBus_SeatRegistration(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		testBus.SeatSearch(2)
+	}
+}
+
+func BenchmarkBus_VehicleEmpty(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		testBus.VehicleEmpty()
+	}
+}
+
+func BenchmarkBus_SeatRemove(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		testBus.SeatRemove(2)
+	}
+}
