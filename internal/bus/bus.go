@@ -56,5 +56,22 @@ func (b Bus) VehicleEmpty() (bool, error) {
 }
 
 func (b Bus) SeatRemove(seatNumber int) error {
+	err := b.CheckSeatNumber(seatNumber)
+	if err != nil {
+		return err
+	}
+
+	result, err := b.SeatSearch(seatNumber)
+	switch err {
+	case nil:
+		if result {
+			b.EmptySeat[seatNumber] = false
+		} else {
+			return BusErrSeatNumberEmpty
+		}
+		break
+	case BusSeatNumberFalse:
+		return BusSeatNumberFalse
+	}
 	return nil
 }
